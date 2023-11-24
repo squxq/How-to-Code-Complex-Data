@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-reader.ss" "lang")((modname parameterization-v2) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname fromExamples3) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ;; ListOfString -> Boolean
 ;; produce true if los includes "UBC"
 
@@ -29,7 +29,7 @@
 
 (define (contains-mcgill? los) (contains? "McGill" los))
 
-
+;; String (listof String) -> Boolean
 ;; produce true if the given list of strings, los, includes the also given string, s
 
 ;; Tests:
@@ -74,8 +74,7 @@
 
 (define (square-roots lon) (map2 sqrt lon))
 
-
-; produce list of sqr or sqrt of every number in the given list, lon ; not a good purpose, since the function is more abstract than this
+;; (X -> Y) (listof X) -> (listof Y)
 ;; given a function, fn, and a list (list n0 n1 ...), lon, produce (list (fn n0) (fn n1) ...)
 
 ;; Tests:
@@ -83,6 +82,8 @@
 (check-expect (map2 sqr (list 2 4)) (list 4 16))
 (check-expect (map2 sqrt (list 16 9)) (list 4 3))
 (check-expect (map2 abs (list 2 -3 4)) (list 2 3 4))
+(check-expect (map2 string-length (list "ajshdfgasf" "afsdguyoifavewyawegfaesfg" "hsf" "alusdgfauyosgvawueyigfvuaysedf"))
+              (list 10 25 3 30))
 
 (define (map2 fn lon)
   (cond [(empty? lon) empty]
@@ -118,6 +119,14 @@
 
 (define (negative-only lon) (filter2 negative? lon))
 
+
+;; (X -> Boolean) (listof X) -> (listof X)
+;; produce only the elements of the given list, lon, that satisfy the predicate, pred
+
+;; Tests:
+(check-expect (filter2 positive? empty) empty)
+(check-expect (filter2 negative? (list 1 -2 3 -4)) (list -2 -4))
+(check-expect (filter2 positive? (list -5 -513 875 -20835 094)) (list 875 094))
 
 (define (filter2 pred lon)
   (cond [(empty? lon) empty]
