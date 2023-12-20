@@ -127,7 +127,7 @@
 
 ;Three part termination argument for vkline:
 ;
-;Base case: (< length LINE-CUTOFF),
+;Base case: (<= length LINE-CUTOFF),
 ;distance between p1 and p2 is less than or equal to LINE-CUTOFF
 ;
 ;Reduction step: split length into three pieces, recurse on all three
