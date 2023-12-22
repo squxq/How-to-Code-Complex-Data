@@ -129,44 +129,97 @@
 (check-expect (solvable? MAZE2) true)
 (check-expect (solvable? MAZE3) false)
 
-;; Template:
+#; (define (solvable? m)
+     (local [(define maze-length (length m))
+
+             ;; Index -> Boolean
+             ;; produce true if given index, i is equal to last index
+             ;; otherwise check if any of its children are
+
+             ;; Stub:
+             #; (define (solvable?--index i) false)
+
+             ;; Template: <used template from Index>
+             (define (solvable?--index i)
+               (if (= i (- maze-length 1))
+                   true
+                   (solvable?--loi (next-indexes m i maze-length))))
+
+
+             ;; (listof Index) -> Boolean
+             ;; produce true if any of the indexes in given loi or their children
+             ;; are equal to last index
+
+             ;; Stub:
+             #; (define (solvable?--loi loi) false)
+
+             ;; Template: <used template from (listof Index)>
+             (define (solvable?--loi loi)
+               (cond [(empty? loi) false]
+                     [else (or (solvable?--index (first loi))
+                               (solvable?--loi (rest loi)))]))]
+       (solvable?--index 0)))
+
+;; or
+
+;; Template: <used template for backtracking a recursively generated arbitrary arity tree>
+
 (define (solvable? m)
-  (local [(define maze-length (length m))
+  (local [(define maze-length (length m)) ;; as the function "length" is provided by Racket
 
           ;; Index -> Boolean
-          ;; produce true if given index, i is equal to last index
-          ;; otherwise check if any of its children are
-
-          ;; Stub:
-          #; (define (solvable?--index i) false)
+          ;; produce true if given index, i, is the lower right corner's index
+          ;; otherwise check if its next moves are
 
           ;; Template: <used template from Index>
-          (define (solvable?--index i)
-            (if (= i (- maze-length 1))
+          (define (solvable--index i)
+            (if (solved? i maze-length)
                 true
-                (solvable?--loi (next-indexes m i maze-length))))
+                (solvable--loi (next-indexes m i maze-length))))
 
 
           ;; (listof Index) -> Boolean
-          ;; produce true if any of the indexes in given loi or their children
-          ;; are equal to last index
-
-          ;; Stub:
-          #; (define (solvable?--loi loi) false)
+          ;; produce true if any index from given loi is the lower right corner's index
 
           ;; Template: <used template from (listof Index)>
-          (define (solvable?--loi loi)
+          (define (solvable--loi loi)
             (cond [(empty? loi) false]
-                  [else (or (solvable?--index (first loi))
-                            (solvable?--loi (rest loi)))]))]
-    (solvable?--index 0)))
+                  [else
+                   (local [(define try (solvable--index (first loi)))] ;; this is either true or a call to: (solvable--loi (next-indexes))
+                     (if (not (false? try))                            ;; (not (false? Boolean)) produces Boolean
+                         try                                           ;; true produces true
+                         (solvable--loi (rest loi))))]))               ;; false produces a call to: (solvable--loi (rest loi))
+          ;; that's why, in my solution I used an "or" function, because of its short-circuiting behavior, which means:
+          ;; if try was true it would return true without calling: (solvable--loi (rest loi)); otherwise it would follow up with the call
+          ;; this proves backtracking is implemented in my solution
+          ] 
+    
+    (solvable--index 0)))
+
+
+;; Index Natural -> Boolean
+;; produce true if given index, i, is the lower right corner's index, given number, n
+
+;; Stub:
+#; (define (solved? i n) false)
+
+;; Tests:
+(check-expect (solved? 4 25) false)
+(check-expect (solved? 8 9) true)
+
+;; Template:
+#; (define (solved? i n)
+     (... i n))
+
+(define (solved? i n)
+  (= i (- n 1)))
 
 
 ;; Maze Index Natural -> (listof Index)
 ;; produce all of the possible valid indexes that we can reach in one move
 ;; from given index, i, in maze, m, with length, l
 ;; NOTES: resulting list of indexes, result, is: 0 <= (length result) <= 2
-;;        valid means it is zero: (zero? some-index)
+;;        valid means it is zero: (zero? some-index) and inbound
 
 ;; Stub:
 #; (define (next-indexes m i l) empty)
@@ -176,6 +229,7 @@
 (check-expect (next-indexes MAZE0 8 LENGTH-MAZES-0-3) (list 9))
 (check-expect (next-indexes MAZE0 9 LENGTH-MAZES-0-3) empty)
 (check-expect (next-indexes MAZE1 20 LENGTH-MAZES-0-3) empty)
+(check-expect (next-indexes MAZE1 4 LENGTH-MAZES-0-3) (list 9))
 (check-expect (next-indexes MAZE2 2 LENGTH-MAZES-0-3) (list 3))
 (check-expect (next-indexes MAZE3 15 LENGTH-MAZES-0-3) empty)
 
