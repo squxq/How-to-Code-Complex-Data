@@ -1,6 +1,8 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname triangle-solitaire-starter.no-image) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(require 2htdp/image)
+
 ;; triangle-solitaire-starter.rkt
 
 ;PROBLEM:
@@ -133,6 +135,13 @@
 ;; List of Positions:
 (define POSITIONS (build-list 15 identity))
 
+;; Rows:
+(define ROWS (list (list 0)
+                   (list 1 2)
+                   (list 3 4 5)
+                   (list 6 7 8 9)
+                   (list 10 11 12 13 14)))
+
 
 ;; BOARDS:
 
@@ -238,44 +247,77 @@
 ;ALL-JUMPS
 
 
+;; IMAGES:
+
+;; Empty cell:
+(define EMPTY-CELL (circle 12 "outline" "black"))
+
+;; Full cell (with a peg):
+(define FULL-CELL (overlay (circle 10 "solid" "blue") EMPTY-CELL))
+
+;; Empty space between boards in (listof Board) rendering:
+(define BETWEEN-BOARD-SPACING (rectangle 10 1 "solid" "transparent"))
+
+
 ;; =====================
 ;; Function Definitions:
 
-;; Board -> Board | false
+;; Board Boolean -> Board | (listof Board) | false
 ;; produce the solution of given board, b, if it exists; otherwise produce false
+;; if Boolean show, s, is true it will return all board states before being solved
 ;; ASSUME: in b there is only a single empty position - cell is false
 
 ;; Stub:
-#; (define (solve b) false)
+#; (define (solve b s) false)
 
 ;; Tests:
-(check-expect (solve BOARD-1) BOARD-1s)
-(check-expect (solve BOARD-2) BOARD-2s)
-(check-expect (solve BOARD-3) BOARD-3s)
-(check-expect (solve BOARD-4) BOARD-4s)
+(check-expect (solve BOARD-1 false) BOARD-1s)
+(check-expect (solve BOARD-2 false) BOARD-2s)
+(check-expect (solve BOARD-3 false) BOARD-3s)
+(check-expect (solve BOARD-4 false) BOARD-4s)
 
 ;; Template: <used template for backtracking on a recursively generated arbitrarity arity tree>
-(define (solve b)
+(define (solve b s)
   (local [;; Board -> Board | false
 
-          (define (solve--board b)
+          ;; Template: <used template for generative recursion>
+          (define (solve--board-hide b)
             (if (solved? b)
                 b
-                (solve--lob (next-boards b))))
+                (solve--lob (next-boards b) solve--board-hide)))
 
 
-          ;; (listof Board) -> Board | false
+          ;; Board -> (listof Board) | false
+
+          ;; Template: <used template for generative recursion>
+          (define (solve--board-show b)
+            (if (solved? b)
+                (cons b empty)
+                (local [(define result (solve--lob (next-boards b) solve--board-show))]
+                  (if (not (false? result))
+                      (cons b result)
+                      false))))
+
+
+          ;; (listof Board) (Board -> Board | (listof Board) | false) -> Board | (listof Board) | false
 
           ;; Template: <used template for (listof Board)>
-          (define (solve--lob lob)
+          (define (solve--lob lob fn)
             (cond [(empty? lob) false]
                   [else
-                   (local [(define try (solve--board (first lob)))]
+                   (local [(define try (fn (first lob)))]
                      (if (not (false? try))
                          try
-                         (solve--lob (rest lob))))]))]
+                         (solve--lob (rest lob) fn)))]))]
     
-    (solve--board b)))
+    (if s
+        (solve--board-show b)
+        (solve--board-hide b))))
+
+;; Termination Argument:
+;; each jump (move) remove one peg from the board, which start out being
+;; 14 pegs, and the game ends, the recursion stops, when there is only
+;; one peg left / it is not possible to remove anymore pegs
 
 
 ;; Board -> Boolean
@@ -569,4 +611,109 @@
 ;; Template:
 (define (replace-cell b p c)
   (cond [(zero? p) (cons c (rest b))]
-        [else (cons (first b) (replace-cell (rest b) (sub1 p) c))]))
+        [else
+         (cons (first b)
+               (replace-cell (rest b) (sub1 p) c))]))
+
+
+;; (Board | (listof Board)) Boolean -> Image
+;; produce a render of a given board, s, if list, l, Boolean
+;; is false; otherwise produce a render of a list of board, s
+;; ASSUME: if list, l, is false then s is Board; and if l is
+;;         true than s is (listof Board)
+
+;; Stub:
+#; (define (render s l) empty-image)
+
+;; Tests:
+(check-expect (render BOARD-1 false)
+              (above (beside EMPTY-CELL empty-image)
+                     (beside FULL-CELL FULL-CELL)
+                     (beside FULL-CELL FULL-CELL FULL-CELL)
+                     (beside FULL-CELL FULL-CELL FULL-CELL FULL-CELL)
+                     (beside FULL-CELL FULL-CELL FULL-CELL FULL-CELL FULL-CELL)))
+(check-expect (render BOARD-2 false)
+              (above (beside FULL-CELL empty-image)
+                     (beside EMPTY-CELL FULL-CELL)
+                     (beside FULL-CELL FULL-CELL FULL-CELL)
+                     (beside FULL-CELL FULL-CELL FULL-CELL FULL-CELL)
+                     (beside FULL-CELL FULL-CELL FULL-CELL FULL-CELL FULL-CELL)))
+(check-expect (render (list BOARD-1 BOARD-2) true)
+              (beside (above (beside EMPTY-CELL empty-image)
+                             (beside FULL-CELL FULL-CELL)
+                             (beside FULL-CELL FULL-CELL FULL-CELL)
+                             (beside FULL-CELL FULL-CELL FULL-CELL FULL-CELL)
+                             (beside FULL-CELL FULL-CELL FULL-CELL FULL-CELL FULL-CELL))
+                      BETWEEN-BOARD-SPACING
+                      (above (beside FULL-CELL empty-image)
+                             (beside EMPTY-CELL FULL-CELL)
+                             (beside FULL-CELL FULL-CELL FULL-CELL)
+                             (beside FULL-CELL FULL-CELL FULL-CELL FULL-CELL)
+                             (beside FULL-CELL FULL-CELL FULL-CELL FULL-CELL FULL-CELL))
+                      BETWEEN-BOARD-SPACING))
+
+(define (render s l)
+  (local [;; Board (listof (listof Position)) -> Image
+          ;; given a list of lists of positions representing all of given board's, b,
+          ;; rows, lor, produce a render of the entire board, traversing through lor
+
+          ;; Stub:
+          #; (define (render--board b lor) empty-image)
+
+          ;; Template: <used template for (listof (list of Position))>
+          (define (render--board b lor)
+            (cond [(empty? lor) empty-image]
+                  [else (above (render-row b (first lor))
+                               (render--board b (rest lor)))]))
+
+          
+          ;; (listof Board) -> Image
+          ;; produce a render of all elements in given list of boards, lob
+
+          ;; Stub:
+          #; (define (render--lob lob) empty-image)
+
+          ;; Template: <used template for "foldr">
+          #; (define (render--lob lob)
+               (foldr beside empty-image ;; missing BETWEEN-BOARD-SPACING
+                      (map (λ (b) (render--board b ROWS)) lob)))
+
+          ;; or using a template for one single pass in given lob
+
+          ;; Template: <used template for (listof Board)>
+          (define (render--lob lob)
+            (cond [(empty? lob) empty-image]
+                  [else
+                   (beside (render--board (first lob) ROWS)
+                           BETWEEN-BOARD-SPACING
+                           (render--lob (rest lob)))]))
+          
+
+          ;; Board (listof Position) -> Image
+          ;; given a list of positions representing a board's row, lop, produce
+          ;; a render of given board's, b, row
+
+          ;; Stub:
+          #; (define (render-row b lop) empty-image)
+
+          ;; Template: <used template for "foldr">
+          #; (define (render-row b lop)
+               (foldr beside empty-image
+                      (map (λ (p) (if (false? (read-cell b p))
+                                      EMPTY-CELL
+                                      FULL-CELL)) lop)))
+
+          ;; or using a template for one single pass in given row
+
+          ;; Template: <used template for (listof Position)>
+          (define (render-row b lop)
+            (cond [(empty? lop) empty-image]
+                  [else
+                   (if (false? (read-cell b (first lop)))
+                       (beside EMPTY-CELL (render-row b (rest lop)))
+                       (beside FULL-CELL (render-row b (rest lop))))]))]
+
+    (if l
+        (render--lob s)
+        (render--board s ROWS))))
+
