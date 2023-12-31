@@ -1,12 +1,18 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-advanced-reader.ss" "lang")((modname ta-solver-starter) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
-(require 2htdp/image)
-(require 2htdp/universe)
+#reader(lib "htdp-advanced-reader.ss" "lang")((modname part-01.no-image) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
 
-
-;; ta-solver-starter.rkt
-
+; PROBLEM 1:
+;
+; Consider a social network similar to Twitter called Chirper. Each user has a name,
+; a note about whether or not they are a verified user, and follows some number of
+; people.
+;
+; Design a data definition for Chirper, including a template that is tail recursive
+; and avoids cycles.
+;
+; Then design a function called most-followers which determines which user in a
+; Chirper Network is followed by the most people.
 
 ;; Chirper is a Twitter like social network. Each Chirper user has a display name,
 ;; a username, which is unique for all users, an about note a website and a birth
