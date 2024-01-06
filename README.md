@@ -2,7 +2,7 @@
 
 ### A code repository and study notes for the UBCx Software Development MicroMasters course: How to Code - Complex Data
 
-Welcome to this repository, a treasure trove featuring meticulously documented code files and in-depth study notes, handpicked to capture the content taught in How to Code: Complex Data. This collection stands as a testament to my successful completion of this course, showcasing the progression from fundamental techniques covered in How to Code: Simple Data to the sophisticated nuances of complex data and control structures. This repository is not just a compilation of knowledge but a living proof of dedication and accomplishment.
+Welcome to this repository, a treasure trove featuring meticulously documented code files and in-depth study notes, handpicked to capture the content taught in [How to Code: Complex Data](https://www.edx.org/learn/coding/university-of-british-columbia-how-to-code-complex-data). This collection stands as a testament to my successful completion of this course, showcasing the progression from fundamental techniques covered in How to Code: Simple Data to the sophisticated nuances of complex data and control structures. This repository is not just a compilation of knowledge but a living proof of dedication and accomplishment.
 
 ## Installation
 
