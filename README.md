@@ -1,8 +1,8 @@
-# How to Code: Complex Data - Code and Comprehensive Notes
+# How to Code: Complex Data - Code and Study Notes
 
 ## A code repository and study notes for the UBCx Software Development MicroMasters course: How to Code - Complex Data
 
-Welcome to this repository, a treasure trove featuring meticulously documented code files and in-depth study notes, handpicked to perfectly capture the content taught in How to Code: Complex Data. This collection stands as a testament to my successful completion of this course, showcasing the progression from fundamental techniques covered in How to Code: Simple Data to the sophisticated nuances of complex data and control structures. This repository is not just a compilation of knowledge but a living proof of dedication and accomplishment.
+Welcome to this repository, a treasure trove featuring meticulously documented code files and in-depth study notes, handpicked to capture the content taught in How to Code: Complex Data. This collection stands as a testament to my successful completion of this course, showcasing the progression from fundamental techniques covered in How to Code: Simple Data to the sophisticated nuances of complex data and control structures. This repository is not just a compilation of knowledge but a living proof of dedication and accomplishment.
 
 ## Installation
 
@@ -25,6 +25,14 @@ If you haven't installed Racket yet, download and install it from the [official 
    cd How-to-Code-Complex-Data
    ```
 
+## Usage
+
+You are welcome to browse and utilize this repository, whether you're seeking a quick reference, enhancing your understanding, or embarking on a deeper exploration of How to Code: Complex Data.
+
+If you are currently enrolled in the How to Code: Complex Data course, it is encouraged to use this repository responsibly. Please be mindful of academic integrity and adhere to the policies of your educational institution. The resources provided here are intended to complement your learning experience; they are not meant to take the place of official course materials.
+
+It's crucial to note that the study notes presented here are a reflection of my personal understanding of the course material. While their goal is to provide a thorough understanding of the fundamental concepts covered, they may not capture every detail. As such, consider them supplementary materials rather than a substitute for the official course documentation or textbooks.
+
 ## Content Structure
 
 This repository is organized to provide a hierarchical, structural and intuitive arrangement of its content for easy navigation, optimal accessibility and understanding. Here's an overview of the main directories and files:
@@ -41,17 +49,10 @@ This repository is organized to provide a hierarchical, structural and intuitive
 **Note on Racket File Organization:**
 The Racket files in the entire repository are, predominantly available in two versions: one with images (.rkt) optimized for enhanced readability in DrRacket, and another without images (.no-image.rkt) designed for compatibility with other text editors and GitHub. This dual-organization ensures flexibility in accessing and understanding the code based on the user's preferred development environment. For an optimal viewing experience and to take full advantage of the included features, it is recommended to read the .rkt files when using DrRacket.
 
-## Usage
+## Acknowledgments
 
-The **NOTES.md** files at the root of this repository and of each module folder include notes, code snippets, links to relevant resources, images and diagrams, and much more. The [NOTES.md](./NOTES.md) file at the root of this repository consolidates the notes from all modules and the final project. The **NOTES.md** file for each module contains the comprehensive notes for the entire module, including content from lectures, problem sets and any additional resources. 
-The [modules](./modules) folder contains separate subfolders for each module, ranging from [week-07](./modules/week-07) to [enter link description here](./modules/week-12) and, as introduction, [week-00](./modules/week-00). Within each week's folder you'll find: NOTES.md and subfolders corresponding to different sections within the module. Each section folder may contain images, lecture problem files (named "problem-..."), and problem set files with distinct names.
-The [final-project](./final-project) folder encompasses the code files for the final project, divided into two parts.
-Almost every racket file in the repository has two versions: **"filename.rkt"** and **"filename.no-image.rkt"**, because DrRacket (the IDE installed together with Racket) allows for having images in the code, and with that comes files that have images are not readable outside DrRacket. All those files were adapted, so their images were removed so that they are readable in any IDE, either online or locally. 
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+I would like to express my sincere gratitude to Professor Gregor Kiczales, Erika Thompson and the entire How to Code Team, for their invaluable guidance throughout the course and their tireless efforts in creating a dynamic and engaging learning environment.
 
 ## License
 
-[MIT](./LICENSE)
+This repository is licensed under the [MIT License](./LICENSE). You are welcome to use, modify, and distribute the code in this repository, keeping in mind the license terms, but please provide attribution by linking back to this repository.
