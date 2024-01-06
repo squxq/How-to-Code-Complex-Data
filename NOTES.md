@@ -1,11 +1,3 @@
-# How to Code: Complex Data
-
-Tags: Core CS, Main Curriculum, Racket
-Course Link: https://learning.edx.org/course/course-v1:UBCx+HtC2x+2T2017/home
-Github Link: https://github.com/squxq/How-to-Code-Complex-Data
-Start Date: October 21, 2023
-Status: In progress
-
 # 0: Introduction
 
 ## Syllabus
